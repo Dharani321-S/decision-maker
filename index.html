@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Helper - AI Powered</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <div class="bg-animated">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <nav class="navbar hidden" id="main-nav">
+        <div class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></div> Decision AI
+        </div>
+        <div class="nav-links">
+            <span id="user-greeting" class="user-greeting">Hi!</span>
+            <button id="btn-history" class="nav-btn" title="History"><i class="fa-solid fa-clock-rotate-left"></i></button>
+            <button id="btn-theme-toggle" class="nav-btn theme-toggle" title="Toggle Theme"><i class="fa-solid fa-sun"></i></button>
+            <button id="btn-logout" class="nav-btn" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+        </div>
+    </nav>
+
+    <main id="app-container">
+        <!-- Login View -->
+        <section id="view-login" class="view active">
+            <div class="auth-wrapper">
+                <div class="card glass-card auth-card slide-up">
+                    <div class="brand-header">
+                        <div class="logo-icon large"><i class="fa-solid fa-bolt-lightning"></i></div>
+                        <h2>Decision AI</h2>
+                        <p>Smart choices, instantly.</p>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="login-name">What should we call you?</label>
+                        <input type="text" id="login-name" placeholder="E.g. Alex" autocomplete="off">
+                    </div>
+                    
+
+                    
+                    <button id="btn-login" class="btn-primary btn-block pulse-btn">
+                        Enter App <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Home View -->
+        <section id="view-home" class="view hidden">
+            <div class="hero">
+                <h1 class="gradient-text slide-up">What's on your mind?</h1>
+                <p class="subtitle slide-up delay-1">Enter brands, products, or questions. Our AI will analyze features and suggest the absolute best choice.</p>
+                
+                <div class="ai-input-card glass-card slide-up delay-2">
+                    <div class="ai-input-wrapper">
+                        <i class="fa-solid fa-wand-magic-sparkles ai-icon"></i>
+                        <input type="text" id="ai-decision-input" placeholder="e.g., iPhone 15 vs Samsung S24" autocomplete="off">
+                        <button id="btn-ai-analyze" class="btn-primary">Analyze</button>
+                    </div>
+                    <div class="divider"><span>OR</span></div>
+                    <button id="btn-manual-start" class="btn-outline">Create Manual Decision</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading View -->
+        <section id="view-loading" class="view hidden">
+            <div class="loading-wrapper">
+                <div class="spinner"></div>
+                <h3 class="gradient-text mt-4 pulse-text">AI is thinking...</h3>
+                <p id="loading-text">Analyzing brands, pulling features, comparing pros & cons...</p>
+            </div>
+        </section>
+
+        <!-- Options View -->
+        <section id="view-options" class="view hidden">
+            <div class="glass-container slide-up">
+                <div class="options-header">
+                    <h2 id="display-question">Question?</h2>
+                    <p class="subtitle">Here are the options. Edit them if you like.</p>
+                </div>
+
+                <!-- AI Alternative Suggestion -->
+                <div id="ai-alternative-box" class="ai-insight-box hidden">
+                    <div class="insight-header">
+                        <i class="fa-solid fa-lightbulb text-warning"></i> 
+                        <h4>AI Better Alternative</h4>
+                    </div>
+                    <p id="ai-alternative-text">Loading...</p>
+                    <button id="btn-add-alternative" class="btn-sm btn-accent mt-2"><i class="fa-solid fa-plus"></i> Add this as an option</button>
+                </div>
+                
+                <div id="options-container" class="options-grid">
+                    <!-- Options injected here -->
+                </div>
+
+                <div class="add-option-btn-container mt-4">
+                    <button id="btn-add-option" class="btn-dashed"><i class="fa-solid fa-plus"></i> Add Another Option</button>
+                </div>
+
+                <div class="action-bar glass-dock">
+                    <button id="btn-back-home" class="btn-secondary">Cancel</button>
+                    <div class="action-right">
+                        <button id="btn-go-wheel" class="btn-accent">Spin Wheel <i class="fa-solid fa-dharmachakra"></i></button>
+                        <button id="btn-analyze" class="btn-primary">Final Verdict <i class="fa-solid fa-trophy"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analysis View -->
+        <section id="view-analysis" class="view hidden">
+            <div class="glass-container slide-up">
+                <div class="text-center mb-4">
+                    <h2 class="gradient-text">The Verdict is In</h2>
+                    <h3 id="analysis-question" class="question-header">Question?</h3>
+                </div>
+                
+                <div class="winner-showcase">
+                    <div class="winner-badge"><i class="fa-solid fa-crown"></i></div>
+                    <h4>Highly Recommended</h4>
+                    <div id="best-option-name" class="winner-name gradient-text">Option Name</div>
+                    <div class="score-display">Score: <span id="best-option-score">10</span>/10</div>
+                </div>
+
+                <div class="comparison-table-wrapper custom-scrollbar mt-4">
+                    <table class="comparison-table" id="comparison-table">
+                        <!-- Table content generated dynamically -->
+                    </table>
+                </div>
+
+                <div class="action-bar glass-dock mt-4">
+                    <button id="btn-back-options" class="btn-secondary">Go Back</button>
+                    <button id="btn-save-decision" class="btn-primary">Save to History <i class="fa-solid fa-check"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wheel View -->
+        <section id="view-wheel" class="view hidden">
+            <div class="glass-container slide-up text-center">
+                <h2 class="gradient-text">Wheel of Destiny</h2>
+                <p>Can't decide? Let fate take the wheel.</p>
+                
+                <div class="wheel-wrapper">
+                    <div class="wheel-pointer"><i class="fa-solid fa-location-pin"></i></div>
+                    <canvas id="canvas-wheel" width="340" height="340"></canvas>
+                </div>
+
+                <div id="wheel-result" class="winner-showcase hidden zoom-in mt-4">
+                    <h4>Fate has chosen...</h4>
+                    <div id="wheel-winner" class="winner-name gradient-text">Option Name</div>
+                </div>
+
+                <div class="action-bar glass-dock mt-4 justify-center">
+                    <button id="btn-back-options-wheel" class="btn-secondary">Back</button>
+                    <button id="btn-spin-wheel" class="btn-primary btn-lg pulse-btn">SPIN NOW <i class="fa-solid fa-rotate"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- History View -->
+        <section id="view-history" class="view hidden">
+            <div class="glass-container slide-up">
+                <h2 class="gradient-text mb-4">Your Past Decisions</h2>
+                <div id="history-list" class="history-grid">
+                    <!-- History items added dynamically -->
+                </div>
+                <div id="empty-history" class="empty-state">
+                    <div class="empty-icon"><i class="fa-solid fa-ghost"></i></div>
+                    <p>It's quiet here. Make your first decision!</p>
+                </div>
+                <div class="mt-4 text-center">
+                    <button id="btn-home-from-history" class="btn-primary">Back to Home</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Templates -->
+    <template id="template-option">
+        <div class="option-card glass-card" data-id="">
+            <div class="option-header">
+                <input type="text" class="option-name-input" placeholder="Option Name (e.g. Brand X)">
+                <button class="btn-icon btn-remove-option" title="Remove"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+            
+            <div class="features-list">
+                <div class="feature-group pro-group">
+                    <h5><i class="fa-solid fa-circle-check text-success"></i> Pros & Features</h5>
+                    <div class="pro-list ul-list custom-scrollbar"></div>
+                    <div class="add-mini">
+                        <input type="text" class="pro-input" placeholder="Add pro...">
+                        <button class="btn-add-pro"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+                
+                <div class="feature-group con-group">
+                    <h5><i class="fa-solid fa-circle-xmark text-danger"></i> Cons & Limits</h5>
+                    <div class="con-list ul-list custom-scrollbar"></div>
+                    <div class="add-mini">
+                        <input type="text" class="con-input" placeholder="Add con...">
+                        <button class="btn-add-con"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="option-score-wrapper">
+                <label>AI/Base Score (1-10)</label>
+                <div class="score-input-group">
+                    <input type="range" class="option-score-range" min="1" max="10" value="5">
+                    <div class="score-display-mini">5</div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Marked JS for parsing markdown from AI -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
